@@ -1,0 +1,23 @@
+Alex Falk
+
+======== DAYTIME ========
+1. 1  192.168.11.128  129.6.15.28  TCP  [SYN]
+   2  129.6.15.28  192.168.11.128  TCP  [SYN, ACK]
+   3  192.168.11.128  129.6.15.28  TCP  [ACK]
+2. 40734
+3. The client needs a port so that the server knows where to send a response
+4. 4  129.6.15.28  192.168.11.128  DAYTIME  DAYTIME Response
+5. There is a TYPE header that indicates that type is Response. There is a Daytime header that represents the actual date/time information as well as new line characters. That is all that is in the frame excluding ethernet, IP and TCP info. There is also information at the top of the frame that seems to just be meta data of some kind.
+6. [SYN] is a synchronization packet which initiates contact between servers.
+7. [ACK] is an acknowledgement that the server received a packet.
+8. [FIN] is the finalized packet which closes the connection between servers.
+9. On my machine, [FIN] is seemingly initiated by the nc client. It sends [FIN] as well as an acknowledgement of the DAYTIME response. The server then sends an acknowledgement of the closure. I am confused because in the video on wireshark, you have more frames than I do (6 vs 8) and the server initiates the closure. I don't know why this is, but I worry that some wireshark settings or hardware differences will cause me to get points off.
+
+
+======== HTTP ========
+1. 4 TCP connections were opened. There were 4 [SYN] synchronization packets listed.
+2. 4  192.168.11.128  45.79.89.123  HTTP  GET /index.html HTTP/1.1
+3. 8  192.168.11.128  45.79.89.123  HTTP  GET /jeff_square_head.jpg HTTP/1.1
+
+======== QUESTIONS ========
+What is [PSH]
