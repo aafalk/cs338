@@ -1,0 +1,59 @@
+Part 1
+Total time: .466s
+Number of hashes computed: 267,516 
+Passwords cracked: 2,734
+Time per hash computed: .00000174s
+Time per password cracked: .000170s
+Passwords cracked per number of hashes computed: .0102
+
+Part 2
+Total time: 3,600s
+Number of hashes computed: 2,504,768,359 
+Passwords cracked: 97
+Time per hash computed: .00000144s
+Time per password cracked: 37.113s
+Passwords cracked per number of hashes computed: .0000000387
+
+Part 3
+Total time: 1,176.431s
+Number of hashes computed: 731,388,744
+Passwords cracked: 2,734
+Time per hash computed: .00000161s
+Time per password cracked: .4303s
+Passwords cracked per number of hashes computed: .0000037
+
+Analysis:
+- Did your time per hash computed change between phases? By what factor? Why?
+    - No, it did not change significantly. Every phase uses the same process to hash each
+      password. Regardless of the amount of passwords, the individual hash process will
+      take the same amount of time.
+- Did your time per password crack change between phases? By what factor? Why?
+    - Phase 1 -> Phase 3 changed by 10^3 (x2,531)
+    - Phase 3 -> Phase 2 changed by 10^2 (x86.25)
+    - Phase 1 -> Phase 2 changed by 10^5 *(x218,311)
+    - The factor change is due to the number of possible passwords increasing while the number of actual
+      passwords stays the same. The ratio of possible passwords to actual passwords between phases is consistent
+      with the changes in factors above. As the ratio gets lower, it becomes less likely that each guess will
+      crack a password. Lower probability per guess means fewer cracked passwords per time.
+- Suppose you wanted to precompute all the hashes for each possible password
+so you could just look up the password in a table indexed by the hash. How much
+memory would be required for each phase?
+    - Part 1:
+        80 * 267,516 = 21,401,280 bytes
+    - Part 2:
+        80 * 267,516 * 267,516 = 5,725,184,820,480 bytes
+    - Part 3
+        Assuming the salt adds 4 bytes...
+        84 * 267,516 * 2,734 = 61,436,654,496 bytes
+        Assuming the salt doesn't add 4 bytes...
+        80 * 267,516 * 2,734 = 58,511,099,520 bytes
+- Give 3-4 reasons we should store password hashes and not the passwords themselves.
+Think in terms of threats, who the attackers might be, etc.
+    1. If passwords are stored as hashes, attackers who gain access to the database 
+       won't have anyone's complete login information. You can't login with the hash.
+       Therefore, even if the database is compromised, the passwords are still unreadable.
+    2. Passwords stored as hashes are also safe from employees who might have access to the database.
+       As a result, passwords are safe even from those who are supposedly trusted with user information.
+       Even employees could have malicious intent!
+    3. Hashed passwords are also safe from Eve. When login information is being sent along the wire,
+       those listening in only get the hashed password as the hashing occurs before the data is sent.
